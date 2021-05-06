@@ -21,6 +21,7 @@ func main() {
 
 	task1 := tasks.NewSendEmailTask("a@abc.com", "hello, a")
 	task2 := tasks.NewSendEmailTask("b@abc.com", "hello, b")
+	task3 := tasks.NewSendEmailTask("c@abc.com", "hello, c")
 
 	if _, err := client.Enqueue(
 		task1,                   // task payload
@@ -29,11 +30,20 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// Process the task 2 minutes later in low queue.
+	// Process the task 10 seconds later in low queue.
 	if _, err := client.Enqueue(
 		task2,                           // task payload
 		asynq.Queue("low"),              // set queue for task
-		asynq.ProcessIn(time.Second*30), // set time to process task
+		asynq.ProcessIn(time.Second*10), // set time to process task
+	); err != nil {
+		log.Fatal(err)
+	}
+
+	// Process the task 10 seconds later in low queue.
+	if _, err := client.Enqueue(
+		task3,                           // task payload
+		asynq.Queue("default"),          // set queue for task
+		asynq.ProcessIn(time.Second*10), // set time to process task
 	); err != nil {
 		log.Fatal(err)
 	}
