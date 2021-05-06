@@ -4,5 +4,5 @@ run-server :
 run-client :
 	go run client/main.go
 
-run-redis-docker :
+get-and-run-redis-docker :
 	sudo docker run --name redis-server -p 6379:6379 -d redis	
